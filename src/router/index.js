@@ -1,25 +1,74 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Home from '@/views/Home.vue'
+import Home from '@/views/Home'
+import Login from '@/views/LoginUser';
+import Logout from '@/views/Logout';
+import SignUp from '@/views/SignUp';
+import Bumdes from '@/views/Bumdes';
+import Peserta from '@/views/Peserta';
+import Kuisioner from '@/views/Kuisioner';
 
-import NotFound from '@/components/NotFound.vue'
+// import NotFound from '@/components/NotFound.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: '*',
-    name: 'NotFound',
-    component: NotFound,
-  }, {
-    path: '/',
-    name: 'home',
-    component: Home,
-    meta: {
-      auth: false,
-    },
-  },
+    {
+        path: '*',
+        redirect: '/login'
+      },
+      {
+        path: '/',
+        redirect: '/login'
+      },
+      {
+        path: '/login',
+        name: 'Login',
+        component: Login
+      },
+      {
+        path: '/logout',
+        name: 'Logout',
+        component: Logout
+      },
+      {
+        path: '/sign-up',
+        name: 'SignUp',
+        component: SignUp
+      },
+      {
+        path: '/home',
+        name: 'Home',
+        component: Home,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: '/bumdes',
+        name: 'Bumdes',
+        component: Bumdes,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: '/peserta',
+        name: 'Peserta',
+        component: Peserta,
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: '/kuisioner',
+        name: 'Kuisioner',
+        component: Kuisioner,
+        meta: {
+          requiresAuth: true
+        }
+      }
 ]
 
 const router = new VueRouter({

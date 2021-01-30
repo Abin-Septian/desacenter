@@ -1,20 +1,27 @@
 const state = {
-  name: 'John Doe',
+  user : {
+    token : {
+
+    },
+    detail : {
+
+    }
+  }
 }
 
 const mutations = {
-  SET_NAME(state, payload) {
-    state.name = payload
+  SET_USER(state, payload) {
+    state.user = payload
   },
 }
 
 const getters = {
-  getName: (state) => state.name,
+  getUser: (state) => state.user,
 }
 
 const actions = {
-  setName({ commit }, payload) {
-    commit('SET_NAME', payload)
+  setUser({ commit }, payload) {
+    commit('SET_USER', payload)
   },
 }
 
