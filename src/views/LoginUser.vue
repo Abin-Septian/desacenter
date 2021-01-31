@@ -38,21 +38,22 @@
         provider.addScope('email');
 
         firebase.auth().signInWithPopup(provider).then((result) => {
-          this.$router.replace('bumdes');
-          // This gives you a Google Access Token.
-        var token = result.credential.accessToken;
-        // The signed-in user info.
-        var detail = result.user;
+            this.$router.replace('bumdes');
+            // This gives you a Google Access Token.
+            var token = result.credential.accessToken;
+            // The signed-in user info.
+            var detail = result.user;
 
-        var user = {
-            token,
-            detail
-        }
+            var user = {
+                token,
+                detail
+            }
 
-        this.setUser(user);
+            this.setUser(user);
         
         }).catch((err) => {
           alert('Oops. ' + err.message)
+          console.log(err)
         });
       }
     }

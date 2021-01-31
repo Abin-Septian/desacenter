@@ -1,6 +1,6 @@
 <template>
     <div>
-        <button @clik="signOut()" class="btn btn-danger">SignOut</button>
+        <button @click="signOut()" class="btn btn-danger">SignOut</button>
     </div>
 </template>
 
@@ -8,17 +8,15 @@
 import firebase from 'firebase';
 
 export default {
-    methods: {
+    methods:  {
         signOut() {
-      firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          this.$router.replace({
-            name: "login"
-          });
+            firebase.auth().signOut().then((result) => {
+                this.$router.replace('login');
+                console.log(result);
+            }).catch((err) => {
+          console.log('Oops. ' + err.message)
         });
-    }
+        }
     },
 }
 </script>

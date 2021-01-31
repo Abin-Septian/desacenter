@@ -16,17 +16,25 @@
                     <p>{{`${index + 1} ${item}`}}</p>
                     <div class="row ml-4" style="max-width:250px;">
                         <div class="form-check form-check-inline col">
-                            <input class="form-check-input" type="radio" :name="`option${idx + 1}${index+1}`" :id="`inlineRadio1${idx + 1}${index+1}`" value="option1">
-                            <label class="form-check-label" for="inlineRadio1">Ya</label>
+                            <input class="form-check-input" type="radio" :name="data.name+index" @change="updateNilai(idx, index, 'ya')" :key="index" :id="data.name+index" :value="ya">
+                            <label class="form-check-label" :for="data.name+index">Ya</label>
                         </div>
                         <div class="form-check form-check-inline col">
-                            <input class="form-check-input" type="radio" :name="`option${idx + 1}${index+1}`" :id="`inlineRadio2${idx + 1}${index+1}`" value="option2">
-                            <label class="form-check-label" for="inlineRadio2">Tidak</label>
+                            <input class="form-check-input" type="radio" :name="data.name+index" @change="updateNilai(idx, index, 'tidak')" :key="index" :id="data.name+index" :value="tidak">
+                            <label class="form-check-label" :for="data.name+index">Tidak</label>
                         </div>
                     </div>
                     
                 </div>
             </div>
+        </div>
+        <div class="d-flex justify-content-end mt-4">
+            <router-link to="/peserta">
+            <button class="btn btn-secondary"> <strong><b> ^ </b></strong>Sebelumnya</button>
+            </router-link>
+            <router-link to="/logout">
+            <button @click="postData()" class="btn btn-primary ml-4">Simpan <strong><b> ></b></strong></button>
+            </router-link>
         </div>
     </div>
   
@@ -49,7 +57,8 @@ export default {
                         'Apakah RPJMDes sudah tersusun?',
                         'Apakah APBDEs 2021 sudah disahkan?',
                         'Apakah informasi APBDes bisa diakses warga?',
-                        'Apakah anda paham yang dimaksud dengan SDGs Desa' ]
+                        'Apakah anda paham yang dimaksud dengan SDGs Desa' ],
+                    jawaban : ["tidak", "tidak", "tidak", "tidak", "tidak", "tidak", "tidak", "tidak", "tidak", "tidak", "tidak" ]
                 },
                 {
                     name : "Bumdes",
@@ -68,7 +77,8 @@ export default {
                         'Apakah Bumdes memiliki SOP?',
                         'Apakah Bumdes memiliki Laporan Keuangan?',
                         'Apakah LPJ Bumdes dibahas di Musdes?',
-                        'Apakah ada penyertaan modal dari masyarakat?']
+                        'Apakah ada penyertaan modal dari masyarakat?'],
+                    jawaban : ["tidak", "tidak", "tidak", "tidak", "tidak", "tidak", "tidak", "tidak", "tidak", "tidak", "tidak", "tidak", "tidak", "tidak", "tidak" ]
                 },
                 {
                     name : "Inovasi",
@@ -83,7 +93,8 @@ export default {
                         'Apakah desa anda pernah masuk berita media nasional?',
                         'Apakah Desa sudah ada kerjasama dengan Perguruan Tinggi',
                         'Apakah Desa sudah ada kerjasama dengan Off Taker/Industri',
-                        'Apakah Desa pernah juara Teknologi Tepat Guna' ]
+                        'Apakah Desa pernah juara Teknologi Tepat Guna' ],
+                    jawaban : ["tidak", "tidak", "tidak", "tidak", "tidak", "tidak", "tidak", "tidak", "tidak", "tidak", "tidak" ]
                 },
                 {
                     name : "Digitalisasi",
@@ -97,11 +108,34 @@ export default {
                         'Apakah follower akun instagram anda diatas 1000 ?', 
                         'Apakah Bumdes anda sudah menggunakan marketplace?',
                         'Apakah jumlah transaksi Bumdes anda secara online diatas 100 Juta?' 
-                    ]
+                    ],
+                    jawaban : ["tidak", "tidak", "tidak", "tidak", "tidak", "tidak", "tidak", "tidak", "tidak"]
                 },
             ]
         }
     },
+    methods: {
+        updateNilai(idx, index, value){
+            this.kuisioner[idx].jawaban[index] = value;
+        },
+        postData(){
+            var user = firebase.auth().currentUser;
+
+            let allData = { 
+                bumdes: this.$store.getters.getBumdesData,
+                peserta: this.$store.getters.getPesertaData,
+                kuisioner: this.kuisioner,
+            };
+
+            db.collection("data").doc(user.email).set(allData, { merge: true })
+            .then(function() {
+                console.log("Document successfully written!");
+            })
+            .catch(function(error) {
+                console.error("Error writing document: ", error);
+            });
+        }
+    }
 }
 </script>
 
